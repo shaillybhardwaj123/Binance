@@ -1,0 +1,25 @@
+# Python cache & build directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Environment configurations containing private API keys
+.env
+.env.local
+
+# IDE Specific directories
+.vscode/
+.idea/
+.project
+.pydevproject
+
+# Node/FastAPI dev environment artifacts
+.pytest_cache/
+.coverage
+htmlcov/

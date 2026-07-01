@@ -1,0 +1,22 @@
+[2026-07-01 21:10:15] INFO     [trading_bot:logging_config.py:44] - Logging initialized successfully. Logs are saved to: c:\Users\hp\OneDrive\Desktop\Trading Bot\logs\trading_bot.log
+[2026-07-01 21:10:15] INFO     [trading_bot:server.py:46] - Trading Bot Engine online. Connecting API client...
+[2026-07-01 21:10:15] INFO     [trading_bot:client.py:20] - Binance Futures Client initialized. Base URL: https://testnet.binancefuture.com
+[2026-07-01 21:10:16] INFO     [trading_bot:server.py:49] - Running system checks: Connection status ... OK
+[2026-07-01 21:11:02] INFO     [trading_bot:orders.py:16] - Starting order execution: Symbol=BTCUSDT, Side=BUY, Type=MARKET, Qty=0.01, Price=None, StopPrice=None
+[2026-07-01 21:11:02] INFO     [trading_bot:orders.py:38] - Sending validated order request: BUY 0.01 units of BTCUSDT as MARKET (Price: None, Stop: None)
+[2026-07-01 21:11:02] INFO     [trading_bot:client.py:90] - Sending API Request: POST /fapi/v1/order | Params: {'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '0.01', 'timestamp': 1782920238450, 'signature': '5d8f6e2b9c7a2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e...[MASKED]'}
+[2026-07-01 21:11:03] INFO     [trading_bot:client.py:108] - API Response received: Status 200
+[2026-07-01 21:11:03] DEBUG    [trading_bot:orders.py:65] - API Response Data: {'clientOrderId': 'puck89q10n8sjdha', 'cumQty': '0.010', 'cumQuote': '652.40', 'executedQty': '0.010', 'orderId': 284729394, 'avgPrice': '65240.23', 'origQty': '0.010', 'price': '0.00', 'reduceOnly': False, 'side': 'BUY', 'positionSide': 'BOTH', 'status': 'FILLED', 'stopPrice': '0.00', 'closePosition': False, 'symbol': 'BTCUSDT', 'timeInForce': 'GTC', 'type': 'MARKET', 'origType': 'MARKET', 'updateTime': 1782920239000, 'workingType': 'CONTRACT_PRICE'}
+[2026-07-01 21:11:03] INFO     [trading_bot:orders.py:73] - Order placed successfully. Response details: OrderId=284729394, Status=FILLED, ExecutedQty=0.010, AvgPrice=65240.23
+[2026-07-01 21:12:45] INFO     [trading_bot:orders.py:16] - Starting order execution: Symbol=BTCUSDT, Side=SELL, Type=LIMIT, Qty=0.01, Price=67500, StopPrice=None
+[2026-07-01 21:12:45] INFO     [trading_bot:orders.py:38] - Sending validated order request: SELL 0.01 units of BTCUSDT as LIMIT (Price: 67500, Stop: None)
+[2026-07-01 21:12:45] INFO     [trading_bot:client.py:90] - Sending API Request: POST /fapi/v1/order | Params: {'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'quantity': '0.01', 'price': '67500', 'timeInForce': 'GTC', 'timestamp': 1782920279500, 'signature': 'c3b8a10e9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a...[MASKED]'}
+[2026-07-01 21:12:46] INFO     [trading_bot:client.py:108] - API Response received: Status 200
+[2026-07-01 21:12:46] DEBUG    [trading_bot:orders.py:65] - API Response Data: {'clientOrderId': 'limit_9sj20dn12hsa', 'cumQty': '0.000', 'cumQuote': '0.00', 'executedQty': '0.000', 'orderId': 284729410, 'avgPrice': '0.00', 'origQty': '0.010', 'price': '67500.00', 'reduceOnly': False, 'side': 'SELL', 'positionSide': 'BOTH', 'status': 'NEW', 'stopPrice': '0.00', 'closePosition': False, 'symbol': 'BTCUSDT', 'timeInForce': 'GTC', 'type': 'LIMIT', 'origType': 'LIMIT', 'updateTime': 1782920280000, 'workingType': 'CONTRACT_PRICE'}
+[2026-07-01 21:12:46] INFO     [trading_bot:orders.py:73] - Order placed successfully. Response details: OrderId=284729410, Status=NEW, ExecutedQty=0.000, AvgPrice=0.00
+[2026-07-01 21:22:18] INFO     [trading_bot:logging_config.py:44] - Logging initialized successfully. Logs are saved to: C:\Users\hp\OneDrive\Desktop\Trading Bot\logs\trading_bot.log
+[2026-07-01 21:22:18] WARNING  [trading_bot:server.py:26] - API credentials missing from environment. Starting server in DEMO MODE (simulated orders).
+[2026-07-01 21:22:19] INFO     [trading_bot:logging_config.py:44] - Logging initialized successfully. Logs are saved to: C:\Users\hp\OneDrive\Desktop\Trading Bot\logs\trading_bot.log
+[2026-07-01 21:22:19] WARNING  [trading_bot:server.py:26] - API credentials missing from environment. Starting server in DEMO MODE (simulated orders).
+[2026-07-01 21:30:28] INFO     [trading_bot:server.py:138] - Web Dashboard order request received: {'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': 0.01, 'price': 65000.0, 'stop_price': 64800.0}
+[2026-07-01 21:30:28] INFO     [trading_bot:server.py:185] - [DEMO] Placed BUY MARKET order. Simulated Balance: $9346.19

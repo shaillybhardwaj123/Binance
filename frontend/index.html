@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Futures 3D Interactive Terminal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+
+    <!-- Main App Container -->
+    <div class="app-layout">
+        <!-- Top Navigation -->
+        <header class="app-header glass-card">
+            <div class="brand">
+                <i class="fa-solid fa-cube logo-icon animate-pulse"></i>
+                <div class="brand-text">
+                    <h1>BINANCE</h1>
+                    <span>QUANT FUTURE TERMINAL</span>
+                </div>
+            </div>
+
+            <!-- Ticker overview -->
+            <div class="ticker-ribbon">
+                <div class="ribbon-item active" data-symbol="BTCUSDT">
+                    <span class="ribbon-symbol">BTC/USDT</span>
+                    <span class="ribbon-price" id="ribbon-btc-price">------</span>
+                    <span class="ribbon-change" id="ribbon-btc-change">+0.00%</span>
+                </div>
+                <div class="ribbon-item" data-symbol="ETHUSDT">
+                    <span class="ribbon-symbol">ETH/USDT</span>
+                    <span class="ribbon-price" id="ribbon-eth-price">------</span>
+                    <span class="ribbon-change" id="ribbon-eth-change">+0.00%</span>
+                </div>
+                <div class="ribbon-item" data-symbol="SOLUSDT">
+                    <span class="ribbon-symbol">SOL/USDT</span>
+                    <span class="ribbon-price" id="ribbon-sol-price">------</span>
+                    <span class="ribbon-change" id="ribbon-sol-change">+0.00%</span>
+                </div>
+            </div>
+
+            <!-- Connection Status -->
+            <div class="status-indicator" id="connection-status">
+                <span class="pulse-dot"></span>
+                <span class="status-text">INITIALIZING...</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel: Trade Executer -->
+            <aside class="panel left-panel glass-card">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-bolt icon-accent"></i> PLACE ORDER</h2>
+                    <span class="panel-subtitle">USDT-M Futures</span>
+                </div>
+
+                <form id="order-form" class="order-form">
+                    <!-- Symbol Input -->
+                    <div class="form-group">
+                        <label for="symbol">Symbol</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-coins"></i>
+                            <input type="text" id="symbol" value="BTCUSDT" placeholder="e.g. BTCUSDT" autocomplete="off" required>
+                        </div>
+                        <div class="symbol-shortcuts">
+                            <span class="shortcut active">BTCUSDT</span>
+                            <span class="shortcut">ETHUSDT</span>
+                            <span class="shortcut">SOLUSDT</span>
+                        </div>
+                    </div>
+
+                    <!-- Side Toggle (BUY/SELL) -->
+                    <div class="form-group">
+                        <label>Position Side</label>
+                        <div class="side-selector">
+                            <input type="radio" id="side-buy" name="side" value="BUY" checked>
+                            <label for="side-buy" class="btn-side side-long">
+                                <i class="fa-solid fa-arrow-trend-up"></i> LONG (BUY)
+                            </label>
+
+                            <input type="radio" id="side-sell" name="side" value="SELL">
+                            <label for="side-sell" class="btn-side side-short">
+                                <i class="fa-solid fa-arrow-trend-down"></i> SHORT (SELL)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Order Type Tab -->
+                    <div class="form-group">
+                        <label>Order Type</label>
+                        <div class="type-selector">
+                            <input type="radio" id="type-market" name="order-type" value="MARKET" checked>
+                            <label for="type-market">MARKET</label>
+
+                            <input type="radio" id="type-limit" name="order-type" value="LIMIT">
+                            <label for="type-limit">LIMIT</label>
+
+                            <input type="radio" id="type-stop-limit" name="order-type" value="STOP_LIMIT">
+                            <label for="type-stop-limit">STOP-LIMIT</label>
+                        </div>
+                    </div>
+
+                    <!-- Quantity Input -->
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-calculator"></i>
+                            <input type="number" id="quantity" step="any" placeholder="0.00" min="0.000001" required>
+                            <span class="input-suffix" id="qty-suffix">BTC</span>
+                        </div>
+                    </div>
+
+                    <!-- Price Input (Hidden for Market) -->
+                    <div class="form-group" id="price-group" style="display: none;">
+                        <label for="price">Limit Price (USDT)</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                            <input type="number" id="price" step="any" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <!-- Stop Price Input (Hidden for Market/Limit) -->
+                    <div class="form-group" id="stop-price-group" style="display: none;">
+                        <label for="stop-price">Stop Price (USDT)</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-bell"></i>
+                            <input type="number" id="stop-price" step="any" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <button type="submit" class="btn-submit" id="btn-submit-order">
+                        <span class="glow-layer"></span>
+                        <span class="btn-content">EXECUTE ORDER</span>
+                    </button>
+                </form>
+            </aside>
+
+            <!-- Center Panel: 3D Visualization Arena -->
+            <main class="panel center-panel">
+                <!-- Overlay Cards on top of 3D Canvas -->
+                <div class="hud-layer top-hud">
+                    <!-- Balance Indicator -->
+                    <div class="hud-card balance-card glass-card">
+                        <div class="hud-label">AVAILABLE BALANCE</div>
+                        <div class="hud-value" id="balance-value">$0.00 <span class="currency">USDT</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="balance-progress" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Live Symbol Stats -->
+                    <div class="hud-card ticker-card glass-card">
+                        <div class="ticker-header">
+                            <span id="ticker-active-symbol">BTCUSDT</span>
+                            <span class="live-dot animate-pulse"></span>
+                        </div>
+                        <div class="ticker-price-glowing" id="ticker-active-price">------</div>
+                        <div class="ticker-stat-row">
+                            <div class="t-stat">
+                                <span class="t-lbl">24h Chg</span>
+                                <span class="t-val text-green" id="ticker-active-change">+0.00%</span>
+                            </div>
+                            <div class="t-stat">
+                                <span class="t-lbl">Spread</span>
+                                <span class="t-val">0.01%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Three.js Canvas Container -->
+                <div id="canvas-container">
+                    <canvas id="canvas3d"></canvas>
+                </div>
+
+                <!-- 3D Interactions HUD instructions -->
+                <div class="hud-layer bottom-hud">
+                    <div class="help-tooltip">
+                        <i class="fa-solid fa-circle-info"></i> Drag left/right to rotate 3D grid. Order placing triggers visual shockwaves and particle streams.
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Panel: Logs and History Console -->
+            <aside class="panel right-panel glass-card">
+                <!-- Upper half: Live Logs -->
+                <div class="console-section">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-terminal icon-accent"></i> ENGINE CONSOLE</h2>
+                        <button id="btn-clear-logs" class="btn-icon" title="Clear console"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div class="terminal-body" id="log-terminal">
+                        <div class="terminal-line system">[SYSTEM] Loading quant neural bridge...</div>
+                        <div class="terminal-line system">[SYSTEM] Connecting graphics pipeline...</div>
+                    </div>
+                </div>
+
+                <!-- Lower half: Order History -->
+                <div class="history-section">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-history icon-accent"></i> TRADE JOURNAL</h2>
+                        <span class="journal-count" id="journal-count">0 orders</span>
+                    </div>
+                    <div class="journal-body" id="journal-list">
+                        <div class="journal-empty">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <p>No executions in current session</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Order Result Modal Backdrop -->
+    <div class="modal-backdrop" id="result-modal">
+        <div class="modal-card glass-card animate-zoom">
+            <div class="modal-header">
+                <h3 id="modal-title">ORDER PLACED</h3>
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="status-icon-wrapper" id="modal-status-icon">
+                    <i class="fa-solid fa-circle-check text-green"></i>
+                </div>
+                <div class="modal-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-val badge" id="modal-status">FILLED</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Order ID</span>
+                        <span class="detail-val" id="modal-order-id">184729394</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Asset</span>
+                        <span class="detail-val" id="modal-symbol">BTCUSDT</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Executed Qty</span>
+                        <span class="detail-val" id="modal-qty">0.010 BTC</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Avg Fill Price</span>
+                        <span class="detail-val" id="modal-price">$65,240.23</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="modal-ok-btn">ACKNOWLEDGE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

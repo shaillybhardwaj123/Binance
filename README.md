@@ -12,20 +12,12 @@
       🌌 QUANT FUTURE TERMINAL — MULTI-DIMENSIONAL WEBGL VIEWPORT 🌌
 ```
 
-<!-- Backend Stack Badges -->
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-00ffd5.svg?style=for-the-badge&logo=python&logoColor=05060f)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.95+-00ffd5.svg?style=for-the-badge&logo=fastapi&logoColor=05060f)](https://fastapi.tiangolo.com)
-[![Uvicorn](https://img.shields.io/badge/Uvicorn-0.20+-00ffd5.svg?style=for-the-badge&logo=git&logoColor=05060f)](https://www.uvicorn.org/)
-[![Requests](https://img.shields.io/badge/Requests-2.28+-00ffd5.svg?style=for-the-badge&logo=python&logoColor=05060f)](https://requests.readthedocs.io/)
-[![Cryptography](https://img.shields.io/badge/HMAC--SHA256-Secure--Sign-00ffd5.svg?style=for-the-badge&logo=hashnode&logoColor=05060f)](https://en.wikipedia.org/wiki/HMAC)
-
-<!-- Frontend Stack Badges -->
 [![Three.js](https://img.shields.io/badge/Three.js-r128-00ffd5.svg?style=for-the-badge&logo=three.js&logoColor=05060f)](https://threejs.org/)
-[![WebSockets](https://img.shields.io/badge/WebSockets-Real--Time-00ffd5.svg?style=for-the-badge&logo=socket.io&logoColor=05060f)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
-[![HTML5](https://img.shields.io/badge/HTML5-Structure-00ffd5.svg?style=for-the-badge&logo=html5&logoColor=05060f)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-Glassmorphism-00ffd5.svg?style=for-the-badge&logo=css3&logoColor=05060f)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-00ffd5.svg?style=for-the-badge&logo=javascript&logoColor=05060f)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![JSON DB](https://img.shields.io/badge/JSON_Storage-Database-00ffd5.svg?style=for-the-badge&logo=json&logoColor=05060f)](https://www.json.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-00ffd5.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+
 
 A high-performance command-line client and interactive WebGL dashboard for placing orders on **Binance Futures (USDT-M) Testnet**. Built using modular Python, FastAPI, and responsive 3D particle physics.
 

@@ -48,6 +48,7 @@ let lastPrices = { BTCUSDT: 0.0, ETHUSDT: 0.0, SOLUSDT: 0.0 };
 let currentPrice = 0.0;
 let lastLogTimestamp = "";
 let tradeJournal = [];
+let tickerWs = null;
 
 // --- Three.js 3D Graphics Setup ---
 let scene, camera, renderer;
@@ -427,19 +428,98 @@ async function fetchBalance() {
     }
 }
 
-// Periodically fetch active symbol mark price details
+// Establish real-time WebSocket ticker updates for major pairs (BTCUSDT, ETHUSDT, SOLUSDT)
+function connectTickerWebSocket() {
+    if (tickerWs) {
+        try { tickerWs.close(); } catch(e) {}
+    }
+    
+    // Connect to multi-stream combined market tickers
+    const wsUrl = "wss://fstream.binance.com/stream?streams=btcusdt@ticker/ethusdt@ticker/solusdt@ticker";
+    tickerWs = new WebSocket(wsUrl);
+    
+    tickerWs.onmessage = (event) => {
+        try {
+            const payload = JSON.parse(event.data);
+            const data = payload.data;
+            const symbol = data.s; // e.g. "BTCUSDT"
+            const price = parseFloat(data.c); // Last price
+            const changePercent = parseFloat(data.P); // Price change percent
+            
+            // 1. Update Top Ribbon Elements
+            const ribbonSymbol = symbol.split("USDT")[0].toLowerCase();
+            const pElem = document.getElementById(`ribbon-${ribbonSymbol}-price`);
+            const cElem = document.getElementById(`ribbon-${ribbonSymbol}-change`);
+            
+            if (pElem && price) {
+                const prev = lastPrices[symbol] || price;
+                pElem.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                
+                if (price > prev) {
+                    cElem.className = "ribbon-change text-green";
+                    cElem.textContent = `+${changePercent.toFixed(2)}%`;
+                } else if (price < prev) {
+                    cElem.className = "ribbon-change text-red";
+                    cElem.textContent = `${changePercent.toFixed(2)}%`;
+                }
+                lastPrices[symbol] = price;
+            }
+            
+            // 2. Update Central Ticker HUD if active symbol matches
+            const activeSym = symbolInput.value.trim().toUpperCase() || "BTCUSDT";
+            if (symbol === activeSym) {
+                activeSymbolText.textContent = symbol;
+                
+                if (currentPrice > 0) {
+                    if (price > currentPrice) {
+                        activePriceText.className = "ticker-price-glowing text-green";
+                        activeChangeText.className = "t-val text-green";
+                        activeChangeText.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                    } else if (price < currentPrice) {
+                        activePriceText.className = "ticker-price-glowing text-red";
+                        activeChangeText.className = "t-val text-red";
+                        activeChangeText.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                    }
+                } else {
+                    activePriceText.className = "ticker-price-glowing";
+                    activeChangeText.className = changePercent >= 0 ? "t-val text-green" : "t-val text-red";
+                    activeChangeText.innerHTML = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                }
+                
+                currentPrice = price;
+                activePriceText.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
+        } catch (e) {
+            console.error("Error parsing ticker stream data:", e);
+        }
+    };
+    
+    tickerWs.onerror = (err) => {
+        console.error("WebSocket Ticker Error:", err);
+    };
+    
+    tickerWs.onclose = () => {
+        console.log("WebSocket Ticker disconnected. Reconnecting in 5 seconds...");
+        setTimeout(connectTickerWebSocket, 5000);
+    };
+}
+
+// Fallback pricing function for custom non-standard symbols typed in input
 async function fetchTicker() {
     const symbol = symbolInput.value.trim().toUpperCase() || "BTCUSDT";
     activeSymbolText.textContent = symbol;
     
+    // WebSockets handles the main three. Only fetch other symbols
+    if (["BTCUSDT", "ETHUSDT", "SOLUSDT"].includes(symbol)) {
+        return;
+    }
+    
     try {
-        // 1. Fetch active ticker details
         const res = await fetch(`${API_BASE}/api/ticker?symbol=${symbol}`);
         const data = await res.json();
         const price = parseFloat(data.price);
         
         if (price) {
-            // Flash color depending on price shift directions
             if (currentPrice > 0) {
                 if (price > currentPrice) {
                     activePriceText.className = "ticker-price-glowing text-green";
@@ -452,38 +532,31 @@ async function fetchTicker() {
                 }
             } else {
                 activePriceText.className = "ticker-price-glowing";
+                activeChangeText.className = "t-val";
+                activeChangeText.textContent = "0.00%";
             }
             
             currentPrice = price;
             activePriceText.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
-        
-        // 2. Fetch background prices for overview ribbon items
-        const symbolsList = ["BTCUSDT", "ETHUSDT", "SOLUSDT"];
-        for (let sym of symbolsList) {
-            const r = await fetch(`${API_BASE}/api/ticker?symbol=${sym}`);
-            const d = await r.json();
-            const p = parseFloat(d.price);
-            
-            const pElem = document.getElementById(`ribbon-${sym.split("USDT")[0].toLowerCase()}-price`);
-            const cElem = document.getElementById(`ribbon-${sym.split("USDT")[0].toLowerCase()}-change`);
-            
-            if (pElem && p) {
-                const prev = lastPrices[sym] || p;
-                pElem.textContent = `$${p.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                
-                if (p > prev) {
-                    cElem.className = "ribbon-change text-green";
-                    cElem.textContent = `+${((p - prev)/prev * 100).toFixed(2)}%`;
-                } else if (p < prev) {
-                    cElem.className = "ribbon-change text-red";
-                    cElem.textContent = `-${((prev - p)/prev * 100).toFixed(2)}%`;
-                }
-                lastPrices[sym] = p;
-            }
+    } catch (e) {
+        console.error("Error fetching custom standard ticker:", e);
+    }
+}
+
+// Load historical trades database from server
+async function loadJournalHistory() {
+    try {
+        const res = await fetch(`${API_BASE}/api/journal`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (Array.isArray(data)) {
+            tradeJournal = data;
+            journalCount.textContent = `${tradeJournal.length} orders`;
+            renderJournal();
         }
     } catch (e) {
-        console.error("Error fetching tickers:", e);
+        console.error("Error loading trade journal database history:", e);
     }
 }
 
@@ -491,8 +564,8 @@ async function fetchTicker() {
 function addOrderToJournal(order) {
     tradeJournal.unshift(order);
     
-    // Limit log display to last 20
-    if (tradeJournal.length > 20) {
+    // Limit log display to last 50
+    if (tradeJournal.length > 50) {
         tradeJournal.pop();
     }
     
@@ -505,7 +578,7 @@ function renderJournal() {
         journalList.innerHTML = `
             <div class="journal-empty">
                 <i class="fa-solid fa-folder-open"></i>
-                <p>No executions in current session</p>
+                <p>No executions in database</p>
             </div>`;
         return;
     }
@@ -519,7 +592,9 @@ function renderJournal() {
         const sideText = order.side === "BUY" ? "LONG" : "SHORT";
         const statusClass = order.status.toLowerCase();
         
-        const timeStr = new Date().toLocaleTimeString();
+        const dateObj = order.timestamp ? new Date(order.timestamp) : new Date();
+        const timeStr = dateObj.toLocaleTimeString();
+        
         const priceStr = order.avgPrice && parseFloat(order.avgPrice) > 0 
             ? `$${parseFloat(order.avgPrice).toLocaleString(undefined, {maximumFractionDigits: 4})}`
             : (order.price ? `$${parseFloat(order.price).toLocaleString(undefined, {maximumFractionDigits: 4})}` : "MARKET");
@@ -729,12 +804,13 @@ window.addEventListener("DOMContentLoaded", () => {
     // 2. Load API states
     checkStatus().then(() => {
         fetchBalance();
-        fetchTicker();
+        connectTickerWebSocket(); // Connect real-time ticker stream
+        loadJournalHistory();     // Load trades from persistent history database
         fetchLogs();
     });
 
     // 3. Setup Loops
-    setInterval(fetchTicker, 2500); // Poll prices
+    setInterval(fetchTicker, 3000); // Fallback custom ticker updates check
     setInterval(fetchLogs, 1500);   // Poll terminal engine logs
     setInterval(fetchBalance, 10000); // Poll balances slower
 });

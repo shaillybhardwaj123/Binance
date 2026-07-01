@@ -1,6 +1,7 @@
 import os
 import time
 import random
+import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -21,6 +22,49 @@ base_url = os.getenv("BINANCE_BASE_URL", "https://testnet.binancefuture.com")
 
 demo_mode = False
 client = None
+
+# --- Persistent Trade History Database ---
+HISTORY_FILE = "logs/trade_history.json"
+
+def load_trade_history() -> list:
+    """Loads historical trade logs from the local JSON storage file."""
+    if os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error("Failed to parse trade history file: %s", e)
+            return []
+    return []
+
+def save_trade_history(history: list):
+    """Writes the trade log array to local storage."""
+    os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
+    try:
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, indent=2)
+    except Exception as e:
+        logger.error("Failed to save trade history: %s", e)
+
+def append_to_journal(order_result: dict, original_price: float = None):
+    """Strips and appends the transaction result into the historical journal."""
+    status = order_result.get("status")
+    
+    entry = {
+        "symbol": order_result.get("symbol"),
+        "orderId": order_result.get("orderId"),
+        "status": status if status else "FAILED",
+        "side": order_result.get("side"),
+        "type": order_result.get("type"),
+        "origQty": order_result.get("origQty"),
+        "executedQty": order_result.get("executedQty", "0"),
+        "avgPrice": order_result.get("avgPrice", "0.0") if float(order_result.get("avgPrice", "0.0")) > 0 else str(original_price or 0.0),
+        "timestamp": int(time.time() * 1000)
+    }
+    
+    history = load_trade_history()
+    history.insert(0, entry) # Prepend to show newest first
+    save_trade_history(history[:50]) # Store up to 50 entries
 
 if not api_key or not api_secret:
     logger.warning("API credentials missing from environment. Starting server in DEMO MODE (simulated orders).")
@@ -183,6 +227,7 @@ def place_order(order: OrderRequest):
         }
         
         logger.info("[DEMO] Placed %s %s order. Simulated Balance: $%.2f", order.side, order.type, simulated_balance)
+        append_to_journal(order_result, original_price=order_price)
         return order_result
 
     # Real execution
@@ -196,7 +241,15 @@ def place_order(order: OrderRequest):
         stop_price=order.stop_price
     )
     
+    if result.get("success"):
+        append_to_journal(result, original_price=order.price)
+        
     return result
+
+@app.get("/api/journal")
+def get_journal():
+    """Returns the persisted list of order history records from local storage."""
+    return load_trade_history()
 
 @app.get("/api/logs")
 def get_logs(lines: int = 40):
@@ -213,9 +266,12 @@ def get_logs(lines: int = 40):
     except Exception as e:
         return {"logs": [f"Error reading logs: {e}"]}
 
+# Resolve frontend absolute path relative to server.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+frontend_dir = os.path.join(BASE_DIR, "frontend")
+
 # Serve frontend static files
-# Place it after specific API routes so they resolve correctly
-if os.path.exists("frontend"):
-    app.mount("/", StaticFiles(directory="frontend", html=True), name="static")
+if os.path.exists(frontend_dir):
+    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="static")
 else:
-    logger.error("Frontend static directory 'frontend' not found! Make sure you create it.")
+    logger.error("Frontend static directory 'frontend' not found at: %s", frontend_dir)

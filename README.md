@@ -42,6 +42,21 @@ Together, the brand name signifies the **union of computer technology and global
 
 ---
 
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend UI** | Vanilla HTML5, Custom Glassmorphic CSS3, Javascript (ES6), FontAwesome Icons |
+| **3D Rendering** | Three.js (WebGL viewport, orbital camera, animated floating currency coin, green/red particle streams) |
+| **Real-Time Data** | Direct WebSockets (`wss://fstream.binance.com`) for live mark prices and 24h percentage updates |
+| **Backend API** | Python 3.8+, FastAPI, Uvicorn (ASGI server) |
+| **Exchange Client** | Custom Requests wrapper, HMAC-SHA256 request signing, automatic time offset synchronization |
+| **Data Database** | Persistent local JSON Trade History log (`logs/trade_history.json`) |
+| **Input Validation** | Pre-request regex matching and value validation rules (`bot/validators.py`) |
+| **Auditing & Logs** | Double-channel rotating file handler + visual terminal outputs (`logs/trading_bot.log`) |
+
+---
+
 ## 🌟 Visual Features
 
 ### 🌌 Central 3D Canvas

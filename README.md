@@ -45,12 +45,14 @@ The center of the dashboard houses a high-fidelity **WebGL canvas** built with *
 
 ### 🎛️ Terminal Console & Journal
 * **Engine Logs Console**: A virtual terminal screen scrolling in real time, tailing and color-coding your local FastAPI `logs/trading_bot.log` messages (blue for systems, green for success, red for errors).
-* **Trade Journal**: Keeps track of recent orders, positions, status badges, and quantities submitted in your active session.
+* **Trade Journal**: Keeps track of recent orders, positions, status badges, and quantities. **This is dynamically persisted via our local database engine and reloads automatically upon page refresh.**
 
 ---
 
 ## 🛠️ Internal Mechanics & Security
 
+* **Real-Time WebSocket Feed**: Employs a direct, browser-side connection to the Binance public combined streams (`wss://fstream.binance.com/stream?streams=btcusdt@ticker/ethusdt@ticker/solusdt@ticker`). Updates active price readouts and ribbon trends in real time with sub-second latency, avoiding HTTP server loads and request limit blocks.
+* **Persistent Trade Database**: Stores all executed orders (both real and simulated) in `logs/trade_history.json`. Exposes the `/api/journal` endpoint to reload and synchronize order history dynamically.
 * **HMAC-SHA256 Signing**: Translates user order parameters into query inputs, hashes them with the local secret key, and sends them via requests headers `X-MBX-APIKEY`.
 * **Server Time Synchronization**: Compares local machine clock offset against `/fapi/v1/time` and dynamically updates timestamp query parameters in milliseconds, resolving the common Binance `-1021 Out of Sync` error.
 * **Validation Middleware**: Symbol checks (`BTCUSDT` alphanumeric constraints), type restrictions, numeric ranges, and required conditions (e.g., LIMIT price requirement) are validated in Python prior to placing requests.

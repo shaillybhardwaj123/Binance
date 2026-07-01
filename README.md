@@ -44,6 +44,12 @@ Together, the brand name signifies the **union of computer technology and global
 
 ## 🛠️ Tech Stack
 
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=html,css,js,threejs,python,fastapi,git,github" />
+</div>
+
+<br/>
+
 | Layer | Technology |
 | :--- | :--- |
 | **Frontend UI** | Vanilla HTML5, Custom Glassmorphic CSS3, Javascript (ES6), FontAwesome Icons |

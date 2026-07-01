@@ -1,27 +1,38 @@
-# 🌌 Binance Futures 3D Interactive Terminal
+<!-- ====== START ATTRACTIVE README.md ====== -->
 
 <div align="center">
 
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3000&pause=1000&color=00FFD5&center=true&vCenter=true&width=700&lines=Binance+Futures+3D+Interactive+Terminal;HMAC-SHA256+Secure+Signed+Client;Real-Time+WebSocket+Candlestick+Engine" alt="Typing SVG" />
-</p>
+# 🚀🌌 Binance Futures 3D Interactive Terminal
 
-```text
+<!-- BIG BANNER ASCII ART -->
+<pre>
     ██████╗ ██╗███╗   ██╗ █████╗ ███╗   ██╗ ██████╗███████╗
     ██╔══██╗██║████╗  ██║██╔══██╗████╗  ██║██╔════╝██╔════╝
     ██████╔╝██║██╔██╗ ██║███████║██╔██╗ ██║██║     █████╗  
     ██╔══██╗██║██║╚██╗██║██╔══██║██║╚██╗██║██║     ██╔══╝  
     ██████╔╝██║██║ ╚████║██║  ██║██║ ╚████║╚██████╗███████╗
-    ╚══════╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝
-      🌌 QUANT FUTURE TERMINAL — MULTI-DIMENSIONAL WEBGL VIEWPORT 🌌
-```
+    ╚═════╝ ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝
+</pre>
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-00ffd5.svg?style=for-the-badge&logo=python&logoColor=05060f)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.95+-00ffd5.svg?style=for-the-badge&logo=fastapi&logoColor=05060f)](https://fastapi.tiangolo.com)
-[![Three.js](https://img.shields.io/badge/Three.js-r128-00ffd5.svg?style=for-the-badge&logo=three.js&logoColor=05060f)](https://threejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-00ffd5.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+**⚡ QUANT FUTURE TERMINAL — MULTI‑DIMENSIONAL WEBGL VIEWPORT ⚡**
 
-A high-performance command-line client and interactive WebGL dashboard for placing orders on **Binance Futures (USDT-M) Testnet**. Built using modular Python, FastAPI, and responsive 3D particle physics.
+<!-- BADGES ROW -->
+![Python 3.8+](https://img.shields.io/badge/python-3.8+-00ffd5?style=for-the-badge&logo=python&logoColor=05060f)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.95+-00ffd5?style=for-the-badge&logo=fastapi&logoColor=05060f)
+![Three.js](https://img.shields.io/badge/Three.js-r128-00ffd5?style=for-the-badge&logo=three.js&logoColor=05060f)
+![WebSocket](https://img.shields.io/badge/WebSocket-Real--Time-00ffd5?style=for-the-badge&logo=websocket&logoColor=05060f)
+![Docker](https://img.shields.io/badge/Docker-Ready-00ffd5?style=for-the-badge&logo=docker&logoColor=05060f)
+[![License: MIT](https://img.shields.io/badge/License-MIT-00ffd5?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/yourusername/trading_bot?style=social)](https://github.com/yourusername/trading_bot)
+[![Discord](https://img.shields.io/badge/Chat-Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/yourinvite)
+[![Twitter](https://img.shields.io/badge/Twitter-@yourhandle-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/yourhandle)
+
+<!-- TYPING ANIMATION -->
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=00FFD5&center=true&vCenter=true&width=900&lines=Binance+Futures+3D+Interactive+Terminal;HMAC-SHA256+Secure+Signed+Client;Real-Time+WebSocket+Candlestick+Engine;Demo+Mode+Ready+%F0%9F%92%B0)
+
+</div>
+
+---
 
 > [!IMPORTANT]
 > **Core Deliverable (CLI Trading Client)**: The primary evaluated interface is located in [cli.py](file:///c:/Users/hp/OneDrive/Desktop/Trading%20Bot/cli.py). To place testnet futures orders instantly, run:
@@ -29,74 +40,102 @@ A high-performance command-line client and interactive WebGL dashboard for placi
 > python cli.py --symbol BTCUSDT --side BUY --type MARKET --quantity 0.01
 > ```
 
-</div>
+---
+
+## 📖 Table of Contents
+- [💡 What is "Binance"?](#-what-is-binance)
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#%EF%B8%8F-tech-stack)
+- [📝 Assumptions & Design Choices](#-assumptions--design-choices)
+- [🌟 Visual Highlights](#-visual-highlights)
+- [🔧 Internal Mechanics & Security](#-internal-mechanics--security)
+- [📁 Repository Structure](#-repository-structure)
+- [📐 Architecture & Data Flow](#-architecture--data-flow)
+- [⚙️ Installation & Setup](#%EF%B8%8F-installation--setup)
+- [💻 Running CLI Orders](#-running-cli-orders)
+- [🌐 Launching the 3D Web UI](#-launching-the-3d-web-ui)
+- [🧪 Testing](#-testing)
+- [🐳 Docker Deployment](#-docker-deployment)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
 ## 💡 What is "Binance"?
-The word **Binance** is a portmanteau (blend) of **Binary** and **Finance**:
-* **Binary**: Represents the digital, computational foundation of cryptocurrency, cryptography, and blockchain (binary numbers: 1s and 0s).
-* **Finance**: Represents the global systems of exchange, investment, capital, and asset trading.
 
-Together, the brand name signifies the **union of computer technology and global asset trading**—forming the conceptual bedrock of this interactive terminal dashboard.
+The word **Binance** is a portmanteau (blend) of **Binary** and **Finance**:
+* **Binary** – the digital, computational foundation of cryptocurrency, cryptography, and blockchain.
+* **Finance** – the global systems of exchange, investment, capital, and asset trading.
+
+Together, the brand name signifies the **union of computer technology and global asset trading**—the conceptual bedrock of this interactive terminal dashboard.
+
+---
+
+## ✨ Features
+
+- [x] **3D WebGL Dashboard** – Orbit around a live‑animated crypto coin with reactive particles.
+- [x] **Real‑Time WebSocket Feeds** – Live mark prices and 24h changes for BTC, ETH, SOL.
+- [x] **Secure HMAC‑SHA256 Signing** – All requests to Binance Futures Testnet are signed.
+- [x] **CLI & Web UI** – Trade from the terminal or the interactive dashboard.
+- [x] **Demo Mode** – No API keys? No problem – mock trading with $10,000 USDT.
+- [x] **Persistent Trade Journal** – All orders are saved locally in `logs/trade_history.json`.
+- [x] **Docker Ready** – Spin up the whole stack with one command.
 
 ---
 
 ## 🛠️ Tech Stack
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=html,css,js,threejs,python,fastapi,git,github" />
+  <img src="https://skillicons.dev/icons?i=html,css,js,threejs,python,fastapi,git,github,docker" />
 </div>
-
-<br/>
 
 | Layer | Technology |
 | :--- | :--- |
-| **Frontend UI** | Vanilla HTML5, Custom Glassmorphic CSS3, Javascript (ES6), FontAwesome Icons |
-| **3D Rendering** | Three.js (WebGL viewport, orbital camera, animated floating currency coin, green/red particle streams) |
-| **Real-Time Data** | Direct WebSockets (`wss://fstream.binance.com`) for live mark prices and 24h percentage updates |
-| **Backend API** | Python 3.8+, FastAPI, Uvicorn (ASGI server) |
-| **Exchange Client** | Custom Requests wrapper, HMAC-SHA256 request signing, automatic time offset synchronization |
-| **Data Database** | Persistent local JSON Trade History log (`logs/trade_history.json`) |
-| **Input Validation** | Pre-request regex matching and value validation rules (`bot/validators.py`) |
-| **Auditing & Logs** | Double-channel rotating file handler + visual terminal outputs (`logs/trading_bot.log`) |
+| **Frontend UI** | HTML5, Glassmorphic CSS3, ES6, FontAwesome |
+| **3D Rendering** | Three.js (WebGL, OrbitControls, particle system) |
+| **Real‑Time Data** | WebSockets (`wss://fstream.binance.com`) |
+| **Backend API** | Python 3.8+, FastAPI, Uvicorn |
+| **Exchange Client** | Custom Requests wrapper with HMAC‑SHA256 |
+| **Persistence** | Local JSON (`logs/trade_history.json`) |
+| **Validation** | Regex & custom rules (`bot/validators.py`) |
+| **Logging** | Rotating file handler + console output |
 
 ---
 
 ## 📝 Assumptions & Design Choices
-* **Default Time In Force (TIF)**: All Limit and Stop-Limit orders default to `GTC` (Good 'Til Cancelled) to align with standard quantitative execution practices.
-* **Quantity Precision**: Client and backend expect order sizes to follow the symbol's specific asset precision limits (e.g. 3 decimal places for BTC, 2 for ETH, 1 for SOL) to prevent API filtering errors.
-* **Stop-Limit Order Type Translation**: Binance Futures API expects the order type parameter `"type": "STOP"` for a stop-limit execution (providing both `price` and `stopPrice`), rather than `"STOP_LIMIT"`. The API client automatically translates the client's `"STOP_LIMIT"` choice to `"STOP"` for API compatibility.
-* **Demo-Mode Fallback**: When API credentials (`BINANCE_API_KEY` or `BINANCE_API_SECRET`) are missing or empty in `.env`, the system automatically shifts into **Demo Mode**, serving mock tickers, simulated orders, and a starting balance of $10,000.00 USDT.
-* **Order Journal Persistence**: Historical transactions are stored locally in a lightweight JSON database file (`logs/trade_history.json`).
+
+- **Default TIF**: All Limit/Stop‑Limit orders use `GTC` (Good 'Til Cancelled).
+- **Quantity Precision**: Order sizes respect each symbol's asset precision (BTC: 3 decimals, ETH: 2, SOL: 1).
+- **Stop‑Limit Translation**: The API client converts `STOP_LIMIT` → `STOP` for Binance compatibility.
+- **Demo Fallback**: Missing credentials → automatic Demo Mode with $10,000 USDT.
+- **Order Journal**: Every order is recorded in `logs/trade_history.json` for audit.
 
 ---
 
-## 🌟 Visual Features
+## 🌟 Visual Highlights
 
-### 🌌 Central 3D Canvas
-The center of the dashboard houses a high-fidelity **WebGL canvas** built with **Three.js**:
-* **Glow-Grid Highway**: A glowing grid scrolling dynamically into the screen, visualizing blockchain transaction pipelines. You can drag and orbit the camera angle.
-* **3D Token Mesh**: A floating, highly metallic golden/cyan digital coin model spinning in the center of the grid, pulsing to market activities.
-* **Reactive Particle Streams**:
-  - Placing a **LONG (BUY)** order triggers an expanding green shockwave and shoots a stream of **neon green particles** flying upwards.
-  - Placing a **SHORT (SELL)** order triggers a pink shockwave and streams **neon red particles** descending downwards.
-  - The coin spins rapidly during transaction execution before decaying back to normal speeds.
+### 🎮 Central 3D Canvas
+- **Glow‑Grid Highway**: Animated grid that scrolls like a blockchain data stream.
+- **3D Token**: A metallic golden/cyan coin that spins and pulses with market activity.
+- **Particle Feedback**:
+  - **LONG (BUY)** → green shockwave + neon green particles flying upward.
+  - **SHORT (SELL)** → pink shockwave + neon red particles falling down.
+  - The coin spins wildly during order execution, then slows down.
 
-### 🎛️ Terminal Console & Journal
-* **Engine Logs Console**: A virtual terminal screen scrolling in real time, tailing and color-coding your local FastAPI `logs/trading_bot.log` messages (blue for systems, green for success, red for errors).
-* **Trade Journal**: Keeps track of recent orders, positions, status badges, and quantities. **This is dynamically persisted via our local database engine and reloads automatically upon page refresh.**
+### 🖥️ Terminal Console & Journal
+- **Engine Logs**: Real‑time scrolling console that tails `trading_bot.log` with colour‑coding.
+- **Trade Journal**: Displays recent orders with status badges, updated dynamically from the local DB.
 
 ---
 
-## 🛠️ Internal Mechanics & Security
+## 🔧 Internal Mechanics & Security
 
-* **Real-Time WebSocket Feed**: Employs a direct, browser-side connection to the Binance public combined streams (`wss://fstream.binance.com/stream?streams=btcusdt@ticker/ethusdt@ticker/solusdt@ticker`). Updates active price readouts and ribbon trends in real time with sub-second latency, avoiding HTTP server loads and request limit blocks.
-* **Persistent Trade Database**: Stores all executed orders (both real and simulated) in `logs/trade_history.json`. Exposes the `/api/journal` endpoint to reload and synchronize order history dynamically.
-* **HMAC-SHA256 Signing**: Translates user order parameters into query inputs, hashes them with the local secret key, and sends them via requests headers `X-MBX-APIKEY`.
-* **Server Time Synchronization**: Compares local machine clock offset against `/fapi/v1/time` and dynamically updates timestamp query parameters in milliseconds, resolving the common Binance `-1021 Out of Sync` error.
-* **Validation Middleware**: Symbol checks (`BTCUSDT` alphanumeric constraints), type restrictions, numeric ranges, and required conditions (e.g., LIMIT price requirement) are validated in Python prior to placing requests.
-* **Zero-Setup Demo Mode**: If API credentials are not found in `.env`, the FastAPI server automatically enables a fully simulated **Demo Mode** with mock tickers and a mock $10,000 USDT balance, making UI testing instant and frictionless.
+- **WebSocket Feed**: Direct browser connection to Binance combined streams – no server overhead.
+- **Persistent DB**: All trades stored in `logs/trade_history.json`; exposed via `/api/journal`.
+- **HMAC‑SHA256 Signing**: Parameters are hashed with the secret key and sent in `X‑MBX‑APIKEY`.
+- **Server Time Sync**: Automatically adjusts timestamps to prevent `-1021 Out of Sync` errors.
+- **Validation Middleware**: Symbol, type, quantity, and price constraints checked server‑side.
+- **Demo Mode**: Zero‑setup simulation with mock tickers and balance – perfect for testing.
 
 ---
 
@@ -104,36 +143,28 @@ The center of the dashboard houses a high-fidelity **WebGL canvas** built with *
 
 ```text
 trading_bot/
-│
-├── bot/                  # Modular Trading Bot Core
-│   ├── __init__.py       # Package init
-│   ├── client.py         # Custom REST API client & HMAC-SHA256 signing
-│   ├── orders.py         # Top-level order placements & response routing
-│   ├── validators.py     # Parameter validation rules & formatting
-│   └── logging_config.py # Double-channel (console + file) logging setup
-│
-├── frontend/             # 3D Dashboard & Trading Terminal
-│   ├── index.html        # 3D landing page interface
-│   ├── style.css         # 3D landing page styling
-│   ├── app.js            # Three.js render loop & WS orchestrator
-│   ├── terminal.html     # Binance-style futures terminal structure
-│   ├── terminal.css      # Matte dark grid panel styles
-│   └── terminal.js       # TV Chart rendering, depth books & form postings
-│
-├── logs/                 # Auto-generated logger directory
-│   └── trading_bot.log   # Detailed execution and audit trail
-│
-├── tests/                # Automated Test Suites
-│   ├── test_validators.py# Validator rules tests
-│   └── test_client.py    # Mocked API client tests
-│
-├── cli.py                # Command Line Interface (argparse)
-├── server.py             # FastAPI REST Server
-├── requirements.txt      # Project library list
-├── Dockerfile            # Container configuration
-├── docker-compose.yml    # Multicontainer orchestrator
-├── .env.example          # API credentials template
-└── README.md             # Developer documentation
+├── bot/                  # Core engine
+│   ├── client.py         # REST client & signing
+│   ├── orders.py         # Order placement
+│   ├── validators.py     # Input validation
+│   └── logging_config.py # Logging setup
+├── frontend/             # 3D UI
+│   ├── index.html        # Main dashboard
+│   ├── style.css         # Glassmorphic styles
+│   ├── app.js            # Three.js & WebSocket
+│   ├── terminal.html     # Trading terminal overlay
+│   ├── terminal.css      # Dark grid panel styles
+│   └── terminal.js       # Chart & depth book
+├── logs/                 # Auto‑generated logs
+│   └── trading_bot.log
+├── tests/                # Unit tests
+├── cli.py                # Command‑line interface
+├── server.py             # FastAPI server
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+└── README.md
 ```
 
 ---
@@ -142,115 +173,86 @@ trading_bot/
 
 ```mermaid
 graph TD
-    subgraph User Interfaces [User Interfaces]
-        CLI[cli.py Argparse CLI]
-        WebUI[WebGL 3D Dashboard Landing Page]
-        TermUI[Binance Futures Trading Terminal Overlay]
+    subgraph UI [User Interfaces]
+        CLI[cli.py]
+        WebUI[3D Dashboard]
+        TermUI[Trading Terminal]
     end
-    subgraph API Backend [FastAPI Server]
-        API[server.py REST endpoints]
-        DB[(logs/trade_history.json)]
+    subgraph Backend [FastAPI Server]
+        API[server.py]
+        DB[(trade_history.json)]
     end
-    subgraph Core Execution Engine [Execution Engine]
-        Validators[bot/validators.py Rules]
-        Orders[bot/orders.py Process]
-        Client[bot/client.py REST Client]
+    subgraph Engine [Execution Core]
+        Validators[validators.py]
+        Orders[orders.py]
+        Client[client.py]
     end
-    subgraph Exchange Interface [Binance Futures API]
-        Binance[Binance Futures Testnet API]
-        WSStream[Binance WS Combined Stream]
+    subgraph Exchange [Binance]
+        BinanceAPI[Futures Testnet API]
+        WSStream[Combined WebSocket Stream]
     end
 
-    CLI -->|Execute| Orders
-    WebUI -->|POST /api/order| API
-    TermUI -->|POST /api/order| API
-    API -->|Calls| Orders
-    Orders -->|Validates| Validators
-    Orders -->|Requests| Client
-    Client -->|HMAC-SHA256 Signed API Request| Binance
-    WebUI -->|wss ticker streams| WSStream
-    TermUI -->|wss kline, depth, aggTrade| WSStream
-    API -->|Persists Trades| DB
-    TermUI -->|GET /api/journal| API
+    CLI --> Orders
+    WebUI --> API
+    TermUI --> API
+    API --> Orders
+    Orders --> Validators
+    Orders --> Client
+    Client -->|HMAC-SHA256| BinanceAPI
+    WebUI --> WSStream
+    TermUI --> WSStream
+    API --> DB
+    TermUI --> API
 ```
 
 ---
 
 ## ⚙️ Installation & Setup
 
-### 1. Initialize Virtual Environment
-Clone the repository, enter the folder, and run:
+### 1️⃣ Clone & Virtual Environment
 ```powershell
-# Create venv using Windows Python Launcher
+git clone https://github.com/yourusername/trading_bot.git
+cd trading_bot
 py -m venv venv
-
-# Activate Virtual Environment (PowerShell)
-.\venv\Scripts\Activate.ps1
-
-# Install Dependencies
+.\venv\Scripts\Activate.ps1   # Windows PowerShell
 pip install -r requirements.txt
 ```
 
-### 2. Configure Credentials
-Generate keys from [Binance Futures Testnet](https://testnet.binancefuture.com). Rename the template config file:
-```powershell
-copy .env.example .env
-```
-Populate `.env` with your keys:
-```env
-BINANCE_API_KEY=your_testnet_key_here
-BINANCE_API_SECRET=your_testnet_secret_here
-```
-*(If no keys are provided, the application will run in simulated **Demo Mode**).*
+### 2️⃣ API Credentials (Optional)
+Copy `.env.example` → `.env` and add your [Testnet keys](https://testnet.binancefuture.com).  
+If you skip this, the app runs in **Demo Mode**.
 
 ---
 
 ## 💻 Running CLI Orders
 
-Activate your virtual environment and run command-line orders with `cli.py`.
-
-### 🔍 Ping Connection Status
-```bash
-python cli.py --test-connection
-```
-
-### 📈 Place a MARKET BUY Order
-```bash
-python cli.py --symbol BTCUSDT --side BUY --type MARKET --quantity 0.01
-```
-
-### 📉 Place a LIMIT SELL Order
-```bash
-python cli.py --symbol ETHUSDT --side SELL --type LIMIT --quantity 0.5 --price 3500
-```
-
-### 🛡️ Place a STOP_LIMIT Order (Bonus)
-```bash
-python cli.py --symbol SOLUSDT --side BUY --type STOP_LIMIT --quantity 1.0 --price 152 --stop-price 150
-```
+| Command | Description |
+| :--- | :--- |
+| `python cli.py --test-connection` | Ping the API |
+| `python cli.py --symbol BTCUSDT --side BUY --type MARKET --quantity 0.01` | Market BUY |
+| `python cli.py --symbol ETHUSDT --side SELL --type LIMIT --quantity 0.5 --price 3500` | Limit SELL |
+| `python cli.py --symbol SOLUSDT --side BUY --type STOP_LIMIT --quantity 1.0 --price 152 --stop-price 150` | Stop‑Limit BUY |
 
 ---
 
 ## 🌐 Launching the 3D Web UI
 
-To start the local web application server:
 ```powershell
 uvicorn server:app --reload
 ```
-Once started, navigate to:
-👉 **[http://localhost:8000](http://localhost:8000)**
+Then open **http://localhost:8000** in your browser.
 
-### 💡 Visual Walkthrough
-1. **Interactive Orbit**: Click and drag on the center WebGL area to pan and rotate the grid space.
-2. **Order Forms**: Type symbol shortcuts, toggle LONG/SHORT sides, select MARKET/LIMIT, and click **EXECUTE ORDER**.
-3. **Execution Popups**: Placing an order triggers a custom modal popup with details (Order ID, executed quantity, average fill price) with neon success/failure highlights.
-4. **Log Terminal**: The Engine Console periodically syncs with `logs/trading_bot.log` to tail raw transactions directly in your browser.
+### 🖱️ Interactive Walkthrough
+- **Orbit**: Drag the 3D scene to rotate.
+- **Order Form**: Choose symbol, side, type, and quantity → click **EXECUTE ORDER**.
+- **Popup**: Receive instant feedback with order ID and fill price.
+- **Log Terminal**: Scrolls live logs from the server.
 
 ---
 
-## 🧪 Running Unit Tests
+## 🧪 Testing
 
-To run the entire test suite (including validation checks and API client mocking):
+Run the full test suite:
 ```powershell
 python -m unittest discover -s tests
 ```
@@ -259,13 +261,36 @@ python -m unittest discover -s tests
 
 ## 🐳 Docker Deployment
 
-Alternatively, you can build and spin up the complete uvicorn server and visual interface inside a Docker container:
-
+Spin up the whole stack in seconds:
 ```bash
-# Build and start container in detached mode
 docker compose up -d
 ```
-Once initialized, navigate to:
-👉 **[http://localhost:8000](http://localhost:8000)**
+Visit **http://localhost:8000** – logs are persisted in `./logs` via volume mount.
 
-Logs will continue to synchronize locally into your `./logs` directory via Docker volumes.
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or pull request.  
+For major changes, discuss them first.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+<div align="center">
+
+### 🌟 Loved this project? Give it a star! ⭐
+
+[![Star on GitHub](https://img.shields.io/badge/⭐-Star%20this%20repo-00ffd5?style=for-the-badge)](https://github.com/yourusername/trading_bot)
+[![Fork on GitHub](https://img.shields.io/badge/🍴-Fork-00ffd5?style=for-the-badge)](https://github.com/yourusername/trading_bot/fork)
+
+**Built with ❤️ for Quant Traders & Developers**
+
+</div>
+
+<!-- ====== END ATTRACTIVE README.md ====== -->

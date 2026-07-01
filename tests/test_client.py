@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import requests
-from bot.client import BinanceFuturesClient, BinanceAPIError, ConnectionError
+from bot.client import BinanceFuturesClient, BinanceAPIError
 
 class TestBinanceFuturesClient(unittest.TestCase):
 
@@ -9,8 +9,7 @@ class TestBinanceFuturesClient(unittest.TestCase):
         # Initialize client with mock keys
         self.client = BinanceFuturesClient(
             api_key="mock_api_key",
-            api_secret="mock_api_secret",
-            use_testnet=True
+            api_secret="mock_api_secret"
         )
 
     @patch("bot.client.requests.get")

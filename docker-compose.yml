@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  trading-terminal:
+    build: .
+    container_name: binance-3d-terminal
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    restart: unless-stopped

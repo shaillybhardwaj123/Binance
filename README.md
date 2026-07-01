@@ -181,3 +181,27 @@ Once started, navigate to:
 2. **Order Forms**: Type symbol shortcuts, toggle LONG/SHORT sides, select MARKET/LIMIT, and click **EXECUTE ORDER**.
 3. **Execution Popups**: Placing an order triggers a custom modal popup with details (Order ID, executed quantity, average fill price) with neon success/failure highlights.
 4. **Log Terminal**: The Engine Console periodically syncs with `logs/trading_bot.log` to tail raw transactions directly in your browser.
+
+---
+
+## 🧪 Running Unit Tests
+
+To verify that the validations and input engines behave correctly under different constraints, run the python tests suite:
+```powershell
+python -m unittest tests/test_validators.py
+```
+
+---
+
+## 🐳 Docker Deployment
+
+Alternatively, you can build and spin up the complete uvicorn server and visual interface inside a Docker container:
+
+```bash
+# Build and start container in detached mode
+docker compose up -d
+```
+Once initialized, navigate to:
+👉 **[http://localhost:8000](http://localhost:8000)**
+
+Logs will continue to synchronize locally into your `./logs` directory via Docker volumes.

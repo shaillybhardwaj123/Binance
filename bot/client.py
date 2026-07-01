@@ -167,16 +167,19 @@ class BinanceFuturesClient:
         """
         self.sync_server_time()
         
+        # Binance Futures expects STOP for STOP_LIMIT orders
+        api_order_type = "STOP" if order_type == "STOP_LIMIT" else order_type
+        
         params = {
             "symbol": symbol,
             "side": side,
-            "type": order_type,
+            "type": api_order_type,
             "quantity": str(quantity),
         }
 
         if order_type in ["LIMIT", "STOP_LIMIT"]:
             params["price"] = str(price)
-            # Default time in force to GTC (Good Till Cancelled) for limit orders
+            # Default time in force to GTC (Good Till Cancelled) for limit/stop-limit orders
             params["timeInForce"] = "GTC"
 
         if order_type == "STOP_LIMIT":

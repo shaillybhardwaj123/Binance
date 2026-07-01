@@ -47,10 +47,15 @@
                 </div>
             </div>
 
-            <!-- Connection Status -->
-            <div class="status-indicator" id="connection-status">
-                <span class="pulse-dot"></span>
-                <span class="status-text">INITIALIZING...</span>
+            <!-- Connection Status & Terminal Trigger -->
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="status-indicator" id="connection-status">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">INITIALIZING...</span>
+                </div>
+                <button id="btn-open-terminal" class="btn-primary" style="margin: 0; width: auto; height: 32px; padding: 0 16px; font-family: var(--font-digital); font-size: 11px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chart-line"></i> OPEN TERMINAL
+                </button>
             </div>
         </header>
 
@@ -261,9 +266,15 @@
         </div>
     </div>
 
+    <!-- Terminal Overlay Container -->
+    <div id="terminal-overlay"></div>
+
     <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- TradingView Lightweight Charts CDN -->
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
     <!-- Custom scripts -->
     <script src="app.js"></script>
+    <script src="terminal.js"></script>
 </body>
 </html>

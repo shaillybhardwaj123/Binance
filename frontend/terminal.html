@@ -1,0 +1,399 @@
+<div class="terminal-view-wrapper">
+    <!-- Top Terminal Ribbon Header -->
+    <header class="term-header">
+        <div class="term-header-left">
+            <button class="term-close-btn" id="term-close-btn" title="Return to Landing Page">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="term-brand">
+                <span class="term-sym-name" id="term-active-symbol">BTCUSDT</span>
+                <span class="term-badge">Perpetual</span>
+            </div>
+
+            <!-- Stats Ribbon -->
+            <div class="term-stats-ribbon">
+                <div class="term-stat-item">
+                    <span class="term-stat-price text-green" id="term-hdr-price">------</span>
+                </div>
+                <div class="term-stat-item">
+                    <span class="term-stat-lbl">24h Change</span>
+                    <span class="term-stat-val text-green" id="term-hdr-change">+0.00%</span>
+                </div>
+                <div class="term-stat-item">
+                    <span class="term-stat-lbl">24h High</span>
+                    <span class="term-stat-val" id="term-hdr-high">------</span>
+                </div>
+                <div class="term-stat-item font-mono-col">
+                    <span class="term-stat-lbl">24h Low</span>
+                    <span class="term-stat-val" id="term-hdr-low">------</span>
+                </div>
+                <div class="term-stat-item font-mono-col">
+                    <span class="term-stat-lbl">24h Volume(BTC)</span>
+                    <span class="term-stat-val" id="term-hdr-vol-btc">------</span>
+                </div>
+                <div class="term-stat-item font-mono-col">
+                    <span class="term-stat-lbl">24h Volume(USDT)</span>
+                    <span class="term-stat-val" id="term-hdr-vol-usdt">------</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="term-header-right">
+            <!-- Timeframes -->
+            <div class="term-timeframe-selectors">
+                <button class="t-tf-btn active" data-interval="1m">1m</button>
+                <button class="t-tf-btn" data-interval="5m">5m</button>
+                <button class="t-tf-btn" data-interval="15m">15m</button>
+                <button class="t-tf-btn" data-interval="1h">1H</button>
+                <button class="t-tf-btn" data-interval="1d">1D</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <div class="term-workspace">
+        
+        <!-- Left Side: Chart and Bottom Tables Journal -->
+        <div class="term-col-left">
+            <!-- Chart Container -->
+            <div class="term-chart-card">
+                <!-- OHLC & Indicators Overlay -->
+                <div class="term-chart-hud" id="term-chart-hud">
+                    <span class="hud-pair">BTCUSDT</span>
+                    <span class="hud-interval">1m</span>
+                    <span class="hud-ohlc">
+                        O: <span class="text-green" id="hud-o">---</span> 
+                        H: <span class="text-green" id="hud-h">---</span> 
+                        L: <span class="text-green" id="hud-l">---</span> 
+                        C: <span class="text-green" id="hud-c">---</span>
+                    </span>
+                    <span class="hud-ma">
+                        <span class="ma-7">MA(7): <span id="hud-ma7">---</span></span>
+                        <span class="ma-25">MA(25): <span id="hud-ma25">---</span></span>
+                        <span class="ma-99">MA(99): <span id="hud-ma99">---</span></span>
+                    </span>
+                </div>
+                <div id="term-chart-container"></div>
+            </div>
+
+            <!-- Bottom Tabs (Trade History, Positions, Open Orders) -->
+            <div class="term-bottom-tabs">
+                <div class="term-tabs-header">
+                    <div class="term-tab-buttons">
+                        <button class="t-tab-btn active" data-tab="tab-positions">Positions (0)</button>
+                        <button class="t-tab-btn" data-tab="tab-open-orders">Open Orders (0)</button>
+                        <button class="t-tab-btn" data-tab="tab-history">Order History</button>
+                        <button class="t-tab-btn" data-tab="tab-journal">Trade History</button>
+                        <button class="t-tab-btn" data-tab="tab-assets">Assets</button>
+                    </div>
+
+                    <!-- Date filters -->
+                    <div class="term-tab-filters">
+                        <label class="hide-symbols-checkbox">
+                            <input type="checkbox" id="chk-hide-symbols"> Hide Other Symbols
+                        </label>
+                        <div class="term-date-ranges">
+                            <button class="t-date-btn active" data-range="1d">1 Day</button>
+                            <button class="t-date-btn" data-range="1w">1 Week</button>
+                            <button class="t-date-btn" data-range="1m">1 Month</button>
+                            <button class="t-date-btn" data-range="3m">3 Months</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="term-tabs-content">
+                    <!-- Positions Tab -->
+                    <div class="term-tab-pane active" id="tab-positions">
+                        <table class="term-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Size</th>
+                                    <th>Entry Price</th>
+                                    <th>Mark Price</th>
+                                    <th>Liq. Price</th>
+                                    <th>Margin Ratio</th>
+                                    <th>Margin</th>
+                                    <th>PNL (Unrealized)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="term-positions-list">
+                                <tr>
+                                    <td colspan="9" class="empty-row">No active positions open</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Open Orders Tab -->
+                    <div class="term-tab-pane" id="tab-open-orders">
+                        <table class="term-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Symbol</th>
+                                    <th>Type</th>
+                                    <th>Side</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Filled</th>
+                                    <th>Trigger Conditions</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="term-open-orders-list">
+                                <tr>
+                                    <td colspan="9" class="empty-row">No active open orders</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Order History Tab -->
+                    <div class="term-tab-pane" id="tab-history">
+                        <table class="term-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Symbol</th>
+                                    <th>Type</th>
+                                    <th>Side</th>
+                                    <th>Average Price</th>
+                                    <th>Executed Qty</th>
+                                    <th>Original Qty</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="term-history-list">
+                                <tr>
+                                    <td colspan="8" class="empty-row">No historical executions found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Trade History Tab -->
+                    <div class="term-tab-pane" id="tab-journal">
+                        <table class="term-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Symbol</th>
+                                    <th>Side</th>
+                                    <th>Avg Price</th>
+                                    <th>Filled Qty</th>
+                                    <th>Status</th>
+                                    <th>Order ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="term-journal-list">
+                                <tr>
+                                    <td colspan="7" class="empty-row">No recent trades logged</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Assets Tab -->
+                    <div class="term-tab-pane" id="tab-assets">
+                        <table class="term-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Wallet Balance</th>
+                                    <th>Unrealized PNL</th>
+                                    <th>Margin Balance</th>
+                                    <th>Available Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="term-assets-list">
+                                <tr>
+                                    <td class="font-mono-col">USDT</td>
+                                    <td class="font-mono-col" id="term-asset-wallet-bal">0.00</td>
+                                    <td class="font-mono-col text-green">0.00</td>
+                                    <td class="font-mono-col" id="term-asset-margin-bal">0.00</td>
+                                    <td class="font-mono-col" id="term-asset-avail-bal">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Column: Order Book & Recent Trades -->
+        <div class="term-col-middle">
+            <!-- Order Book Pane -->
+            <div class="term-panel order-book-pane">
+                <div class="term-panel-header">Order Book</div>
+                <div class="ob-table-header">
+                    <span>Price (USDT)</span>
+                    <span>Size (Qty)</span>
+                    <span>Total</span>
+                </div>
+                
+                <!-- Asks list (Red, descending price) -->
+                <div class="ob-ladder ob-asks" id="ob-asks-list">
+                    <!-- Will be populated dynamically -->
+                </div>
+
+                <!-- Spread middle divider -->
+                <div class="ob-spread-divider">
+                    <span class="ob-mark-price" id="ob-spread-price">------</span>
+                    <span class="ob-index-price"><i class="fa-solid fa-arrow-trend-up text-green"></i> <span id="ob-spread-index">------</span></span>
+                </div>
+
+                <!-- Bids list (Green, descending price) -->
+                <div class="ob-ladder ob-bids" id="ob-bids-list">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Recent Trades List -->
+            <div class="term-panel recent-trades-pane">
+                <div class="term-panel-header">Recent Trades</div>
+                <div class="rt-table-header">
+                    <span>Price (USDT)</span>
+                    <span>Amount (Qty)</span>
+                    <span>Time</span>
+                </div>
+                <div class="rt-list" id="rt-trades-list">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Order Entry & Account Sidebar -->
+        <div class="term-col-right">
+            
+            <!-- Margin and Leverage Selectors -->
+            <div class="term-entry-settings">
+                <select id="term-margin-type" class="term-select">
+                    <option value="CROSS">Cross</option>
+                    <option value="ISOLATED">Isolated</option>
+                </select>
+                <select id="term-leverage" class="term-select">
+                    <option value="20x">20x</option>
+                    <option value="50x">50x</option>
+                    <option value="100x">100x</option>
+                    <option value="125x">125x</option>
+                </select>
+            </div>
+
+            <!-- BUY/LONG vs SELL/SHORT Toggles -->
+            <div class="term-side-tabs">
+                <button class="t-side-btn active buy-long" id="t-side-buy" data-side="BUY">Buy/Long</button>
+                <button class="t-side-btn sell-short" id="t-side-sell" data-side="SELL">Sell/Short</button>
+            </div>
+
+            <!-- Order form inputs -->
+            <div class="term-order-form-container">
+                <div class="term-form-row">
+                    <label>Type</label>
+                    <select id="term-order-type" class="term-select-form">
+                        <option value="MARKET">Market</option>
+                        <option value="LIMIT">Limit</option>
+                        <option value="STOP_LIMIT">Stop-Limit</option>
+                    </select>
+                </div>
+
+                <!-- Price input (Limit / Stop Limit) -->
+                <div class="term-form-row" id="t-price-row" style="display: none;">
+                    <label for="t-price-input">Price</label>
+                    <div class="term-input-wrapper">
+                        <input type="number" id="t-price-input" step="any" placeholder="0.00">
+                        <span>USDT</span>
+                    </div>
+                </div>
+
+                <!-- Stop Activation Price (Stop Limit Only) -->
+                <div class="term-form-row" id="t-stop-price-row" style="display: none;">
+                    <label for="t-stop-input">Stop Price</label>
+                    <div class="term-input-wrapper">
+                        <input type="number" id="t-stop-input" step="any" placeholder="0.00">
+                        <span>USDT</span>
+                    </div>
+                </div>
+
+                <!-- Size Input (Quantity) -->
+                <div class="term-form-row">
+                    <label for="t-qty-input">Size</label>
+                    <div class="term-input-wrapper">
+                        <input type="number" id="t-qty-input" step="any" placeholder="0.00" required>
+                        <span id="t-qty-unit">BTC</span>
+                    </div>
+                </div>
+
+                <!-- Size Percent Slider -->
+                <div class="term-slider-group">
+                    <input type="range" id="t-qty-slider" min="0" max="100" value="0" class="term-slider">
+                    <div class="term-slider-marks">
+                        <span data-val="0">0%</span>
+                        <span data-val="25">25%</span>
+                        <span data-val="50">50%</span>
+                        <span data-val="75">75%</span>
+                        <span data-val="100">100%</span>
+                    </div>
+                </div>
+
+                <!-- TP/SL checkbox trigger -->
+                <div class="term-tpsl-trigger">
+                    <label class="term-checkbox-label">
+                        <input type="checkbox" id="t-tpsl-checkbox"> TP/SL
+                    </label>
+                </div>
+
+                <!-- TP / SL details (Hidden by default) -->
+                <div id="term-tpsl-fields" class="term-tpsl-fields" style="display: none;">
+                    <div class="term-form-row small">
+                        <label for="t-tp-input">Take Profit</label>
+                        <div class="term-input-wrapper">
+                            <input type="number" id="t-tp-input" step="any" placeholder="Trigger price">
+                            <span>USDT</span>
+                        </div>
+                    </div>
+                    <div class="term-form-row small">
+                        <label for="t-sl-input">Stop Loss</label>
+                        <div class="term-input-wrapper">
+                            <input type="number" id="t-sl-input" step="any" placeholder="Trigger price">
+                            <span>USDT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Metrics & Asset Details -->
+                <div class="term-account-details">
+                    <div class="ad-metric">
+                        <span class="ad-lbl">Margin Ratio</span>
+                        <span class="ad-val text-green" id="term-margin-ratio-val">0.00%</span>
+                    </div>
+                    <div class="term-bar-ratio">
+                        <div class="term-bar-fill" id="term-margin-ratio-bar" style="width: 0%;"></div>
+                    </div>
+                    <div class="ad-metric">
+                        <span class="ad-lbl">Maintenance Margin</span>
+                        <span class="ad-val" id="term-maint-margin-val">0.00 USDT</span>
+                    </div>
+                    <div class="ad-metric">
+                        <span class="ad-lbl">Margin Balance</span>
+                        <span class="ad-val" id="term-margin-bal-val">0.00 USDT</span>
+                    </div>
+                    <div class="ad-metric">
+                        <span class="ad-lbl">Max Buy (Long)</span>
+                        <span class="ad-val text-green" id="term-max-buy-val">0.000 BTC</span>
+                    </div>
+                    <div class="ad-metric">
+                        <span class="ad-lbl">Max Sell (Short)</span>
+                        <span class="ad-val text-red" id="term-max-sell-val">0.000 BTC</span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button class="term-btn-execute buy" id="term-btn-execute">
+                    Buy/Long
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

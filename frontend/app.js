@@ -441,53 +441,64 @@ function connectTickerWebSocket() {
     tickerWs.onmessage = (event) => {
         try {
             const payload = JSON.parse(event.data);
-            const data = payload.data;
-            const symbol = data.s; // e.g. "BTCUSDT"
-            const price = parseFloat(data.c); // Last price
-            const changePercent = parseFloat(data.P); // Price change percent
             
-            // 1. Update Top Ribbon Elements
-            const ribbonSymbol = symbol.split("USDT")[0].toLowerCase();
-            const pElem = document.getElementById(`ribbon-${ribbonSymbol}-price`);
-            const cElem = document.getElementById(`ribbon-${ribbonSymbol}-change`);
-            
-            if (pElem && price) {
-                const prev = lastPrices[symbol] || price;
-                pElem.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                
-                if (price > prev) {
-                    cElem.className = "ribbon-change text-green";
-                    cElem.textContent = `+${changePercent.toFixed(2)}%`;
-                } else if (price < prev) {
-                    cElem.className = "ribbon-change text-red";
-                    cElem.textContent = `${changePercent.toFixed(2)}%`;
-                }
-                lastPrices[symbol] = price;
+            // Forward messages to terminal if overlay is active
+            if (typeof handleTerminalWsMessage === "function" && document.getElementById("terminal-overlay").classList.contains("active")) {
+                handleTerminalWsMessage(payload);
             }
             
-            // 2. Update Central Ticker HUD if active symbol matches
-            const activeSym = symbolInput.value.trim().toUpperCase() || "BTCUSDT";
-            if (symbol === activeSym) {
-                activeSymbolText.textContent = symbol;
+            const data = payload.data;
+            if (!data) return;
+            
+            // Only process ribbon updates if stream is a ticker stream
+            if (payload.stream && payload.stream.includes("@ticker")) {
+                const symbol = data.s; // e.g. "BTCUSDT"
+                const price = parseFloat(data.c); // Last price
+                const changePercent = parseFloat(data.P); // Price change percent
                 
-                if (currentPrice > 0) {
-                    if (price > currentPrice) {
-                        activePriceText.className = "ticker-price-glowing text-green";
-                        activeChangeText.className = "t-val text-green";
-                        activeChangeText.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
-                    } else if (price < currentPrice) {
-                        activePriceText.className = "ticker-price-glowing text-red";
-                        activeChangeText.className = "t-val text-red";
-                        activeChangeText.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                // 1. Update Top Ribbon Elements
+                const ribbonSymbol = symbol.split("USDT")[0].toLowerCase();
+                const pElem = document.getElementById(`ribbon-${ribbonSymbol}-price`);
+                const cElem = document.getElementById(`ribbon-${ribbonSymbol}-change`);
+                
+                if (pElem && price) {
+                    const prev = lastPrices[symbol] || price;
+                    pElem.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    
+                    if (price > prev) {
+                        cElem.className = "ribbon-change text-green";
+                        cElem.textContent = `+${changePercent.toFixed(2)}%`;
+                    } else if (price < prev) {
+                        cElem.className = "ribbon-change text-red";
+                        cElem.textContent = `${changePercent.toFixed(2)}%`;
                     }
-                } else {
-                    activePriceText.className = "ticker-price-glowing";
-                    activeChangeText.className = changePercent >= 0 ? "t-val text-green" : "t-val text-red";
-                    activeChangeText.innerHTML = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                    lastPrices[symbol] = price;
                 }
                 
-                currentPrice = price;
-                activePriceText.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                // 2. Update Central Ticker HUD if active symbol matches
+                const activeSym = symbolInput.value.trim().toUpperCase() || "BTCUSDT";
+                if (symbol === activeSym) {
+                    activeSymbolText.textContent = symbol;
+                    
+                    if (currentPrice > 0) {
+                        if (price > currentPrice) {
+                            activePriceText.className = "ticker-price-glowing text-green";
+                            activeChangeText.className = "t-val text-green";
+                            activeChangeText.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                        } else if (price < currentPrice) {
+                            activePriceText.className = "ticker-price-glowing text-red";
+                            activeChangeText.className = "t-val text-red";
+                            activeChangeText.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                        }
+                    } else {
+                        activePriceText.className = "ticker-price-glowing";
+                        activeChangeText.className = changePercent >= 0 ? "t-val text-green" : "t-val text-red";
+                        activeChangeText.innerHTML = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(4)}%`;
+                    }
+                    
+                    currentPrice = price;
+                    activePriceText.textContent = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                }
             }
         } catch (e) {
             console.error("Error parsing ticker stream data:", e);
@@ -797,6 +808,16 @@ symbolInput.addEventListener("input", (e) => {
 
 // --- Boot Routine ---
 window.addEventListener("DOMContentLoaded", () => {
+    // 0. Bind open terminal button
+    const openTermBtn = document.getElementById("btn-open-terminal");
+    if (openTermBtn) {
+        openTermBtn.addEventListener("click", () => {
+            if (typeof openTerminal === "function") {
+                openTerminal();
+            }
+        });
+    }
+
     // 1. Init Graphics
     init3D();
     animate();

@@ -21,6 +21,12 @@
 
 A high-performance command-line client and interactive WebGL dashboard for placing orders on **Binance Futures (USDT-M) Testnet**. Built using modular Python, FastAPI, and responsive 3D particle physics.
 
+> [!IMPORTANT]
+> **Core Deliverable (CLI Trading Client)**: The primary evaluated interface is located in [cli.py](file:///c:/Users/hp/OneDrive/Desktop/Trading%20Bot/cli.py). To place testnet futures orders instantly, run:
+> ```bash
+> python cli.py --symbol BTCUSDT --side BUY --type MARKET --quantity 0.01
+> ```
+
 </div>
 
 ---
@@ -52,6 +58,15 @@ Together, the brand name signifies the **union of computer technology and global
 | **Data Database** | Persistent local JSON Trade History log (`logs/trade_history.json`) |
 | **Input Validation** | Pre-request regex matching and value validation rules (`bot/validators.py`) |
 | **Auditing & Logs** | Double-channel rotating file handler + visual terminal outputs (`logs/trading_bot.log`) |
+
+---
+
+## 📝 Assumptions & Design Choices
+* **Default Time In Force (TIF)**: All Limit and Stop-Limit orders default to `GTC` (Good 'Til Cancelled) to align with standard quantitative execution practices.
+* **Quantity Precision**: Client and backend expect order sizes to follow the symbol's specific asset precision limits (e.g. 3 decimal places for BTC, 2 for ETH, 1 for SOL) to prevent API filtering errors.
+* **Stop-Limit Order Type Translation**: Binance Futures API expects the order type parameter `"type": "STOP"` for a stop-limit execution (providing both `price` and `stopPrice`), rather than `"STOP_LIMIT"`. The API client automatically translates the client's `"STOP_LIMIT"` choice to `"STOP"` for API compatibility.
+* **Demo-Mode Fallback**: When API credentials (`BINANCE_API_KEY` or `BINANCE_API_SECRET`) are missing or empty in `.env`, the system automatically shifts into **Demo Mode**, serving mock tickers, simulated orders, and a starting balance of $10,000.00 USDT.
+* **Order Journal Persistence**: Historical transactions are stored locally in a lightweight JSON database file (`logs/trade_history.json`).
 
 ---
 
@@ -186,9 +201,9 @@ Once started, navigate to:
 
 ## 🧪 Running Unit Tests
 
-To verify that the validations and input engines behave correctly under different constraints, run the python tests suite:
+To run the entire test suite (including validation checks and API client mocking):
 ```powershell
-python -m unittest tests/test_validators.py
+python -m unittest discover -s tests
 ```
 
 ---

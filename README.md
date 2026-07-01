@@ -2,6 +2,10 @@
 
 <div align="center">
 
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3000&pause=1000&color=00FFD5&center=true&vCenter=true&width=700&lines=Binance+Futures+3D+Interactive+Terminal;HMAC-SHA256+Secure+Signed+Client;Real-Time+WebSocket+Candlestick+Engine" alt="Typing SVG" />
+</p>
+
 ```text
     ██████╗ ██╗███╗   ██╗ █████╗ ███╗   ██╗ ██████╗███████╗
     ██╔══██╗██║████╗  ██║██╔══██╗████╗  ██║██╔════╝██╔════╝
@@ -16,8 +20,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.95+-00ffd5.svg?style=for-the-badge&logo=fastapi&logoColor=05060f)](https://fastapi.tiangolo.com)
 [![Three.js](https://img.shields.io/badge/Three.js-r128-00ffd5.svg?style=for-the-badge&logo=three.js&logoColor=05060f)](https://threejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00ffd5.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
-
 
 A high-performance command-line client and interactive WebGL dashboard for placing orders on **Binance Futures (USDT-M) Testnet**. Built using modular Python, FastAPI, and responsive 3D particle physics.
 
@@ -110,19 +112,66 @@ trading_bot/
 │   ├── validators.py     # Parameter validation rules & formatting
 │   └── logging_config.py # Double-channel (console + file) logging setup
 │
-├── frontend/             # 3D Dashboard Client
-│   ├── index.html        # Glassmorphism terminal markup
-│   ├── style.css         # Futuristic glows, fonts, & transitions CSS
-│   └── app.js            # Three.js render loops & API endpoint links
+├── frontend/             # 3D Dashboard & Trading Terminal
+│   ├── index.html        # 3D landing page interface
+│   ├── style.css         # 3D landing page styling
+│   ├── app.js            # Three.js render loop & WS orchestrator
+│   ├── terminal.html     # Binance-style futures terminal structure
+│   ├── terminal.css      # Matte dark grid panel styles
+│   └── terminal.js       # TV Chart rendering, depth books & form postings
 │
 ├── logs/                 # Auto-generated logger directory
 │   └── trading_bot.log   # Detailed execution and audit trail
 │
+├── tests/                # Automated Test Suites
+│   ├── test_validators.py# Validator rules tests
+│   └── test_client.py    # Mocked API client tests
+│
 ├── cli.py                # Command Line Interface (argparse)
 ├── server.py             # FastAPI REST Server
 ├── requirements.txt      # Project library list
+├── Dockerfile            # Container configuration
+├── docker-compose.yml    # Multicontainer orchestrator
 ├── .env.example          # API credentials template
 └── README.md             # Developer documentation
+```
+
+---
+
+## 📐 Architecture & Data Flow
+
+```mermaid
+graph TD
+    subgraph User Interfaces [User Interfaces]
+        CLI[cli.py Argparse CLI]
+        WebUI[WebGL 3D Dashboard Landing Page]
+        TermUI[Binance Futures Trading Terminal Overlay]
+    end
+    subgraph API Backend [FastAPI Server]
+        API[server.py REST endpoints]
+        DB[(logs/trade_history.json)]
+    end
+    subgraph Core Execution Engine [Execution Engine]
+        Validators[bot/validators.py Rules]
+        Orders[bot/orders.py Process]
+        Client[bot/client.py REST Client]
+    end
+    subgraph Exchange Interface [Binance Futures API]
+        Binance[Binance Futures Testnet API]
+        WSStream[Binance WS Combined Stream]
+    end
+
+    CLI -->|Execute| Orders
+    WebUI -->|POST /api/order| API
+    TermUI -->|POST /api/order| API
+    API -->|Calls| Orders
+    Orders -->|Validates| Validators
+    Orders -->|Requests| Client
+    Client -->|HMAC-SHA256 Signed API Request| Binance
+    WebUI -->|wss ticker streams| WSStream
+    TermUI -->|wss kline, depth, aggTrade| WSStream
+    API -->|Persists Trades| DB
+    TermUI -->|GET /api/journal| API
 ```
 
 ---
